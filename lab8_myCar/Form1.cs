@@ -93,18 +93,17 @@ namespace lab8_myCar
             int errorInXml = 0;
             int record = 1;
             string filename = "myCars.xml";
-            LoadMyFile(filename);
+            errorInXml = LoadMyFile(filename);
             foreach (Car car in cars)
                 listBox1.Items.Add(car.FIO + " " + car.CodeMark + " " + car.Marka + " " + car.TypeB + " " + car.Power + " " + car.VmaxB + " " + car.VB + " " + car.VmaxM + " " + car.VM);
         }
-        public static void LoadMyFile(string filename)
+        public static int LoadMyFile(string filename)
         {
             int errorInXml = 0;
             int record = 1;
             cars.Clear();
             try
             {
-
                 XmlDocument xDoc = new XmlDocument();
                 errorInXml = 10;
                 xDoc.Load(filename);
@@ -175,8 +174,10 @@ namespace lab8_myCar
                         }
 
                     }
-                    record++;
-                    cars.Add(car);
+                    errorInXml = -1;
+
+                     record++;
+                    cars.Add(car); 
                 }
             }
             catch (Exception ex)
@@ -196,9 +197,9 @@ namespace lab8_myCar
                     case 10: MessageBox.Show(ex.Message); break;
                     default: MessageBox.Show(ex.Message); errorInXml = 8; break;
                 }
-                MessageBox.Show("Загрузка последующих записей остановлена");
+                MessageBox.Show("Загрузка последующих записей остановлена");                
             }
-
+            return errorInXml;
         }
 
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
